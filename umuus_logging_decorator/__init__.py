@@ -34,6 +34,12 @@ Example
     >>> import umuus_logging_decorator
 
 
+----
+
+    $ export BETTER_EXCEPTIONS=1
+
+----
+
 
     class Foo:
         @umuus_logging_decorator.logger.decorator(level='WARNING')
@@ -82,6 +88,7 @@ __install_requires__ = [
     'attrs>=18.2.0',
     'toolz>=0.9.0',
     'loguru>=0.2.5',
+    'better_exceptions>=0.2.2',
 ]
 __dependency_links__ = []
 __classifiers__ = []
@@ -113,6 +120,9 @@ class Logger(object):
             "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | <cyan>{message}</cyan>"
         }])
 
+    def truncate(self, s, max_length=255, end='...'):
+        return (len(s) > max_length and s[:max_length] + end or s)
+
     @toolz.curry
     def decorator(self, fn, level='INFO'):
         module = (getattr(fn, '__module__', None) and fn.__module__ or '')
@@ -123,18 +133,15 @@ class Logger(object):
 
         @functools.wraps(fn)
         def wrapper(*args, **kwargs):
-            logger('{name}\tinput\t{args}\t{kwargs}'.format(
-                **dict(locals(), name=name)))
+            logger(self.truncate('{name}'.format(**dict(locals(), name=name))))
             try:
                 result = fn(*args, **kwargs)
-                logger('{name}\tresult\t{result}'.format(
-                    **dict(locals(), name=name)))
+                logger(
+                    self.truncate('{name}\tresult\t{result}'.format(
+                        **dict(locals(), name=name))))
                 return result
-            except:
-                loguru.logger.exception(
-                    '{name}\tresult\t{args}\t{kwargs}'.format(
-                        **dict(locals(), name=name)))
-                exit(1)
+            except Exception as err:
+                raise err
 
         return wrapper
 

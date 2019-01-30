@@ -12,4 +12,5 @@ name = "pypi"
 attrs = ">=18.2.0"
 toolz = ">=0.9.0"
 loguru = ">=0.2.5"
+better_exceptions = ">=0.2.2"
 

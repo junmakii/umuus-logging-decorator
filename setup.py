@@ -24,7 +24,7 @@ setup(
     keywords=[],
     license='GPLv3',
     scripts=[],
-    install_requires=['attrs>=18.2.0', 'toolz>=0.9.0', 'loguru>=0.2.5'],
+    install_requires=['attrs>=18.2.0', 'toolz>=0.9.0', 'loguru>=0.2.5', 'better_exceptions>=0.2.2'],
     dependency_links=[],
     classifiers=[],
     entry_points={},
@@ -58,6 +58,12 @@ setup(
  '\n'
  '    >>> import umuus_logging_decorator\n'
  '\n'
+ '\n'
+ '----\n'
+ '\n'
+ '    $ export BETTER_EXCEPTIONS=1\n'
+ '\n'
+ '----\n'
  '\n'
  '\n'
  '    class Foo:\n'

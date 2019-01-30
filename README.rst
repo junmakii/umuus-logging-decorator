@@ -15,6 +15,12 @@ Example
     >>> import umuus_logging_decorator
 
 
+----
+
+    $ export BETTER_EXCEPTIONS=1
+
+----
+
 
     class Foo:
         @umuus_logging_decorator.logger.decorator(level='WARNING')
